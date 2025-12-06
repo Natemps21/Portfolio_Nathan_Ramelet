@@ -1,0 +1,420 @@
+Use the following instructions to build a modern restaurant website.
+
+Prompt Part 1: Technical Foundation
+Use the following instructions to build a high-end, immersive portfolio website for a Full Stack Engineer.
+Next.js Version: 14.x (App Router)
+React: 18.x
+Language: TypeScript (Strict Mode)
+Node.js: >=18.x
+Package Manager: npm
+Install the following core dependencies:
+code
+Bash
+# Core Framework & Styling
+npm install next@latest react@latest react-dom@latest \
+            typescript @types/react @types/node @types/react-dom \
+            tailwindcss postcss autoprefixer \
+            clsx tailwind-merge \
+            lucide-react
+
+# 3D & Animation (The Galaxy Engine)
+npm install three @types/three @react-three/fiber @react-three/drei \
+            framer-motion maath
+
+# Backend/Data Layer (Engineering Architecture)
+npm install @prisma/client
+npm install prisma --save-dev
+Technical Foundation
+1. Project Architecture (N-Tier / Clean Architecture)
+The project must follow a strict separation of concerns, utilizing Next.js App Router to simulate a modern N-Tier architecture (Data Access -> Service Layer -> Presentation Layer).
+code
+Code
+/
+├── app/                    # Presentation Layer (Views & Routes)
+│   ├── (routes)/           # Grouped routes (home, projects, cv)
+│   ├── api/                # Controller Layer (API Endpoints)
+│   ├── layout.tsx          # Root layout (Canvas provider)
+│   └── page.tsx            # Landing page
+├── components/             # UI Components
+│   ├── 3d/                 # R3F Canvas components (Galaxy, Sun, Stars)
+│   ├── ui/                 # Reusable atomic UI elements (Buttons, Cards)
+│   ├── layout/             # Structural components (Nav, Footer)
+│   └── sections/           # Page specific sections (Hero, History)
+├── lib/                    # Infrastructure & Utils
+│   ├── prisma.ts           # Database Singleton
+│   └── utils.ts            # Helper functions
+├── services/               # Service Layer (Business Logic)
+│   ├── projectService.ts   # Logic for fetching/filtering projects
+│   └── experienceService.ts
+├── types/                  # TypeScript Interfaces & DTOs
+├── styles/                 # Global styles & Tailwind layers
+└── public/                 # Static assets
+3. Configuration Files Setup
+next.config.js: Configure strict React mode and image domains.
+tailwind.config.ts: Define the "Nebula" color palette and custom animations.
+tsconfig.json: Ensure strict: true and proper path aliases (@/components, @/services).
+prisma/schema.prisma: Define models for Project, Experience, and Education (SQLite for dev, Postgres for prod).
+4. Key Technical Considerations
+Immersive 3D Background (The Galaxy)
+Implement a global Canvas via @react-three/fiber that persists across route changes.
+The background must render a realistic nebula using custom shaders or particle systems (PointsMaterial).
+Performance: Use instancedMesh for stars to handle thousands of particles without frame drops.
+Responsive Design & Adaptive 3D
+Desktop: Full interactive 3D galaxy with mouse-move parallax.
+Mobile: Reduce particle count. The central "Sun" menu must fallback to a high-performance accessible Burger Menu if WebGL performance is low.
+Breakpoints:
+sm: 640px (Mobile - Simplified effects)
+md: 768px (Tablet - Full layout)
+lg: 1024px (Desktop - High fidelity)
+State Management
+Use Zustand (lightweight store) to manage the "Galaxy State" (speed, rotation, zoom level) and "Menu State" (Sun expansion).
+Avoid Prop Drilling.
+Use React Context only for Theme/Toast notifications.
+Animation Implementation
+3D: Use useFrame (R3F) for the constant rotation of the nebula and the "Sun" pulsation.
+UI: Use Framer Motion for DOM elements.
+Scroll-triggered animations (fade-in-up) for the content sections (History, CV).
+Smooth transitions between "Passive Galaxy" and "Active Menu" states.
+5. Development Best Practices
+Code Organization & Type Safety
+Every component must be typed (interface Props).
+Follow the Container/Presentational pattern where possible (Server Components fetch data, Client Components render UI).
+Keep 3D logic separate from HTML UI logic.
+Styling Methodology (Nebula Theme)
+Use Tailwind utility classes for layout and typography.
+Z-Index Strategy:
+z-0: Canvas (Galaxy Background).
+z-10: Content/Scrollable Sections.
+z-50: Navigation/Sun Menu.
+Glassmorphism: Use backdrop-blur and semi-transparent backgrounds (bg-black/30) to ensure text is readable over the starry background.
+Performance Considerations
+Three.js: Dispose of geometries/materials when unmounting. Use drei/PerformanceMonitor to lower quality on weak devices.
+Lazy Loading: Use next/dynamic to load heavy 3D components only after the main UI is interactive.
+Fonts: Use next/font with a professional sans-serif (e.g., Inter or Space Grotesk) to prevent Layout Shift.
+Image Optimization
+Use Next.js <Image> for all static assets (CV preview, Project screenshots).
+All images must have alt text for accessibility.
+Use WebP formats where possible.
+Layout Optimization
+Hero Section: 100vh (viewport height) with the Sun/Menu centered.
+Content Flow: Single-column layout for text-heavy sections (History, CV) with max-width containers (max-w-4xl) for readability.
+Grid: Use CSS Grid for the "Projects" section (1 col mobile, 2 col desktop).
+Component Structure
+Atomic Design: Create base components (<Button>, <Card>, <Tag>) that share the "Space" aesthetic (glow effects, rounded borders).
+Server Components: Fetch data (Projects, Experience) in Server Components and pass data to Client Components for rendering.
+--- END OF PART 1 ---
+
+
+
+Prompt Part 2: Components Architecture
+Components Architecture
+1. GalaxyBackground Component (The Core Engine)
+Purpose: Render the immersive, interactive 3D nebula that persists across the entire application. This is the visual foundation.
+Requirements:
+Technology: React Three Fiber (<Canvas>) + Custom Shaders.
+Visual Style:
+Diagonal Flow: A cosmic river flowing from Top-Left to Bottom-Right.
+Palette: Deep Violet (#1a0b2e), Magenta (#ff00ff), Cyan (#00ffff), and Deep Space Blue (#050510).
+Core: A bright, white-cyan nucleus slightly offset from the center.
+Performance: Use InstancedMesh for stars (count: ~5000) to ensure 60FPS on mobile.
+Key Features:
+Interactive Parallax: The galaxy rotates slowly by default. When the mouse moves, the rotation speed and camera angle shift subtly (parallax effect).
+State Awareness: Must listen to a global store (Zustand).
+State 'Passive': Slow, majestic flow.
+State 'Active' (Menu Open): The galaxy accelerates slightly or "warps" backwards to create depth.
+Star Layers:
+Layer 1: Distant dust (fog).
+Layer 2: Small white stars.
+Layer 3: Rare, bright "Hero Stars" with 4-point diffraction spikes (using sprites).
+2. SunNavigation Component (The Central Hub)
+Purpose: Replaces the traditional navbar. A central 3D Star/Sun that acts as the interactive menu trigger.
+Requirements:
+Position: Fixed at the center of the viewport (z-index: 50).
+Visuals: A glowing sphere using MeshStandardMaterial with an Emissive glow (Orange/Gold to contrast with the Violet Galaxy).
+Interaction (The "Burger" Replacement):
+Hover State:
+The Sun scales up (1.2x).
+A ring of "Satellite Stars" (Menu Items) orbits into view.
+Sound effect: Subtle low-frequency hum (optional).
+Click/Active State:
+The Sun moves to the top-center or becomes a background element.
+Triggers smooth scroll to specific sections.
+Sub-Components (The Satellites):
+Create floating HTML buttons (using @react-three/drei <Html>) that appear around the sun on hover.
+Labels: "My Journey", "Projects", "CV", "Contact".
+Animation: They should spiral out from behind the sun when hovered.
+3. TimelineSection Component (Journey & Experience)
+Purpose: Display "Collège/Lycée", "Higher Education", and "Professional Experience" in a vertical, connected layout.
+Requirements:
+Data Source: Receives an array of Experience objects (Date, Title, Description, Type) via props.
+Layout:
+Desktop: Alternating layout (Left/Right) with a central "Constellation Line" connecting them.
+Mobile: Single column on the left, line on the left.
+Visual Style:
+Cards: Glassmorphism style (backdrop-filter: blur(10px), bg-white/5, border-white/10).
+Typography: Clean sans-serif. Dates in "Accent Cyan".
+Connectors: The vertical line should look like a laser or stardust trail.
+Animation Specifications:
+Scroll Trigger: As the user scrolls down, the "Constellation Line" draws itself (SVG path animation).
+Card Reveal: Cards fade in and slide up (y: 20 -> 0, opacity: 0 -> 1) using Framer Motion.
+4. ProjectGrid Component
+Purpose: Showcase engineering projects (Web, Mobile, Software) in a high-tech grid.
+Requirements:
+Layout: Responsive Grid (1 col Mobile, 2 col Tablet, 3 col Desktop).
+Card Design:
+Image: High-quality screenshot with a slight purple overlay that vanishes on hover.
+Content: Title (Bold), Short Description, Tech Stack Tags (e.g., "Next.js", "Docker", "AWS").
+Actions: Two buttons: "View Code" (GitHub Icon) and "Live Demo" (External Link Icon).
+Interactivity:
+Hover: The card lifts (scale: 1.02), the border glows in Cyan.
+3D Tilt: (Optional) Use react-tilt for a subtle holographic feel.
+Tech Stack Badges:
+Small pill-shaped tags.
+Dynamic colors based on technology (e.g., React = Blue, Node = Green).
+5. CVPreview Component
+Purpose: A dedicated section to view and download the Resume.
+Requirements:
+Visuals: A "Holographic Document" container.
+Layout:
+Left side: A blurred preview of the PDF.
+Right side: "Download PDF" button and a summary of skills.
+Button Style:
+"Cyberpunk" aesthetic: Sharp corners, transparent fill, glowing border.
+Hover: Fills with solid accent color (Cyan or Magenta).
+6. Footer Component
+Purpose: Contact info and social proof.
+Requirements:
+Background: Solid dark color (matches the darkest part of the nebula) to ground the page.
+Content:
+Socials: Large Icons for LinkedIn, GitHub, Email (using lucide-react).
+Copyright: "© 2024 Nathan Ramelet. Engineered with Next.js & R3F."
+Interaction:
+Icons glow with their respective brand colors on hover (LinkedIn Blue, GitHub White).
+7. BrandLogo Component
+Purpose: Professional identity, fixed at the top-left (or integrated into the hero).
+Requirements:
+Text: "NATHAN RAMELET" (Uppercase, tracked out tracking-widest).
+Subtext: "Full Stack Engineer" (Smaller, text-gray-400).
+Font: Space Grotesk or a similar tech-inspired font.
+Effect:
+Text should have a subtle gradient (White to Silver).
+On Hover: A "glint" animation passes across the text (CSS background-clip animation).
+Asset & Data Configuration
+1. Color System (The Nebula Palette)
+Define these in tailwind.config.ts:
+code
+JavaScript
+colors: {
+  space: {
+    black: "#050510",    // Deepest background
+    dark: "#1A0B2E",     // Nebula shadow
+    light: "#2D1B4E",    // Nebula mid-tone
+    accent: "#7000FF",   // Electric Violet
+  },
+  star: {
+    cyan: "#00FFFF",     // Hot stars / Accents
+    magenta: "#FF00FF",  // Nebula highlights
+    gold: "#FDB813",     // The Sun / Warning
+  },
+  glass: {
+    low: "rgba(255, 255, 255, 0.05)",
+    medium: "rgba(255, 255, 255, 0.1)",
+    border: "rgba(255, 255, 255, 0.15)",
+  }
+}
+2. Data Structure (Mock Data for Development)
+Create a data/portfolio.ts file to simulate the Database/API response:
+code
+TypeScript
+// Example Structure
+export const timelineData = [
+  {
+    id: 1,
+    type: "education",
+    title: "Engineering Degree",
+    institution: "Your School",
+    date: "2020 - 2023",
+    description: "Specialized in Software Architecture..."
+  },
+  // ... more items
+];
+
+export const projectsData = [
+  {
+    id: 1,
+    title: "Project Alpha",
+    tech: ["React", "Node.js", "Docker"],
+    image: "/images/project1.jpg", // Placeholder
+    repoLink: "https://github.com/..."
+  }
+];
+--- END OF PART 2 ---
+Use Arrow Up and Arrow Down to select a turn, Enter to jump to it, and Escape to return to the chat.
+
+
+
+Prompt Part 3: Asset & Configuration
+Asset Configuration
+1. 3D & Texture Assets (The Galaxy Engine)
+Since the Hero section is a real-time 3D environment (R3F), we do not use static slider images. Instead, we require specific textures to render the Nebula and the Sun.
+Nebula & Star Textures
+Nebula Cloud Texture: A semi-transparent, smoky noise texture to create the volumetric gas effect.
+Asset: public/textures/smoke.png
+Usage: Used in the custom shader to generate the "Cosmic River" flowing diagonally.
+Star Sprite: A soft, glowing circle with alpha transparency.
+Asset: public/textures/star.png
+Usage: InstancedMesh particles.
+Sun Surface (The Menu): A high-contrast noise map to simulate the sun's photosphere.
+Asset: public/textures/sun_noise.jpg
+Usage: DisplacementMap on the central sphere.
+UI & Profile Images
+Profile Picture (About Section): A professional, high-contrast portrait.
+Style: Black & White or desaturated to blend with the dark background.
+Location: public/images/nathan-profile.jpg
+Project Placeholders:
+Use abstract "Tech/Code" wallpapers for project thumbnails if screenshots are unavailable.
+2. Typography System
+We need a typography pairing that balances "Sci-Fi/Engineering" with "Professional Readability".
+Google Fonts Configuration:
+Headings (The "Space" feel): Orbitron or Space Grotesk.
+Usage: Name, Section Titles, Navigation Links.
+Weights: 700 (Bold), 500 (Medium).
+Body Text (The "Engineer" feel): Inter or Rajdhani.
+Usage: Bio text, CV details, Project descriptions.
+Weights: 300 (Light), 400 (Regular).
+3. Color System (The Nebula Theme)
+The color palette must be strictly defined in Tailwind to match the "Violet-Pink-Blue" nebula description.
+code
+CSS
+/* Global CSS Variables */
+:root {
+  /* Backgrounds */
+  --bg-deep: #030014;       /* Almost black, slight blue tint */
+  --bg-nebula: #1a0b2e;     /* Deep Violet base */
+  
+  /* Accents (The Nebula Gradients) */
+  --accent-cyan: #00f0ff;   /* Electric Blue */
+  --accent-magenta: #ff00aa;/* Neon Pink */
+  --accent-violet: #7000ff; /* Deep Purple */
+  
+  /* The Sun (Menu Trigger) */
+  --sun-core: #ffffff;
+  --sun-glow: #fdb813;      /* Golden Yellow */
+  
+  /* Text */
+  --text-primary: #e2e8f0;  /* Off-white for readability */
+  --text-secondary: #94a3b8;/* Muted blue-grey */
+}
+Tailwind Configuration (tailwind.config.ts):
+code
+TypeScript
+import { type Config } from "tailwindcss";
+
+export default {
+  theme: {
+    extend: {
+      colors: {
+        space: {
+          950: "#030014", // Main Background
+          900: "#0f0518", // Secondary Background
+          800: "#1a0b2e", // Card Backgrounds
+        },
+        nebula: {
+          cyan: "#00f0ff",
+          magenta: "#ff00aa",
+          purple: "#7000ff",
+        },
+        star: {
+          yellow: "#fdb813", // Sun Color
+        }
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'glass-gradient': 'linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)',
+      },
+      animation: {
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'float': 'float 6s ease-in-out infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' },
+        }
+      }
+    },
+  },
+} satisfies Config;
+4. Next.js Image Configuration
+Update next.config.js to allow external image sources for dynamic content (e.g., if fetching project images from GitHub or a CMS).
+code
+JavaScript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com', // For placeholder assets
+      },
+      {
+        protocol: 'https',
+        hostname: 'github.com', // For project repository open-graph images
+      },
+    ],
+  },
+  // Transpile R3F packages to avoid ESM issues
+  transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],
+};
+
+module.exports = nextConfig;
+Deployment & DevOps Strategy
+1. Dockerization
+Create a multi-stage Dockerfile optimized for production to ensure the "Engineering Grade" architecture.
+Stage 1 (Builder): Install dependencies and build the Next.js app.
+Stage 2 (Runner): Alpine Linux node image. Copy only .next/standalone and public folders.
+Optimization: Ensure output: 'standalone' is set in next.config.js to minimize image size.
+2. CI/CD Pipeline (GitHub Actions)
+Trigger: On push to main.
+Jobs:
+Lint & Type Check: Run npm run lint and tsc.
+Build: Verify the build succeeds.
+Deploy: Build Docker image and push to registry (or deploy to Vercel/Coolify).
+Final Summary of Scope
+You are building "The Cosmic Portfolio".
+Core: Next.js 14 + TypeScript + Tailwind.
+Visuals: A React Three Fiber background rendering a diagonal, flowing nebula (Violet/Pink/Cyan).
+Navigation: A central interactive Sun that expands into a menu on hover.
+Content:
+Hero: 3D Immersion.
+Scroll: Smooth parallax revealing Bio, Timeline, Projects, and CV.
+Data: Managed via structured JSON/Prisma types.
+Vibe: High-tech, mysterious, professional, and fluid.
+--- END OF PROMPT ---
+
+
+
+Prompt Add-on: Advanced Visual Fidelity & Polish
+CRITICAL DESIGN INSTRUCTION:
+The visual output must not look like a standard HTML website. It must feel like a cinematic interface. To achieve this, you must implement the following Post-Processing and Micro-Interaction rules.
+1. Post-Processing Pipeline (The "Wow" Factor)
+Use @react-three/postprocessing to enhance the R3F Canvas. The galaxy and sun must not look flat.
+Bloom Effect: Apply a selective Bloom (Threshold: 1.5, Intensity: 1.2) specifically to the Sun core, the "Hero Stars," and the Cyan nebula filaments. They must appear to emit real light that bleeds into the surroundings.
+Noise/Grain: Add a subtle Noise effect (Opacity: 0.02) over the entire screen to prevent color banding in the dark gradients and give a "film" aesthetic.
+Vignette: Darken the corners of the screen significantly to focus attention on the center (The Sun/Content).
+2. Shader Quality (The Nebula)
+Do not use a simple static image. The Nebula must be generative or use high-resolution layered textures.
+Movement: The fog must flow organically (using Simplex Noise in the shader).
+Depth: Use additive blending for the colors. When a pink layer overlaps a cyan layer, it should create white/bright intersections, mimicking real light physics.
+3. "Frosted Glass" UI Realism
+The UI cards (History, Projects) must look like physical glass floating in space.
+Backdrop Filter: backdrop-blur-xl (Tailwind).
+Border: The border must be a linear gradient (Top-Left White to Bottom-Right Transparent) to simulate a light source hitting the glass edge.
+Shadows: Do not use black shadows. Use colored shadows (e.g., a faint purple glow behind the cards: shadow-[0_0_30px_-10px_rgba(112,0,255,0.3)]).
+4. Micro-Interactions & Physics
+Magnetic Buttons: The "Sun Menu" items and main CTA buttons should have a slight "magnetic" effect (move slightly towards the cursor when hovered).
+Smooth Scrolling: Implement Lenis or a similar library for momentum-based scrolling. The standard browser scroll is too choppy for a space theme.
+Text Reveal: Text should not just "appear." It should split by words or characters and fade in with a slight stagger effect (staggerChildren in Framer Motion).
+5. Mobile Considerations
+On mobile, disable the heavy Post-Processing (Bloom) to maintain performance, but keep the Glassmorphism and Typography hierarchy intact.

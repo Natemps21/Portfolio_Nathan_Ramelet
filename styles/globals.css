@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Backgrounds - Pure space black */
+  --bg-deep: #000000;
+  --bg-nebula: #000000;
+  
+  /* Accents - Subtle galaxy colors */
+  --accent-cyan: #4a90e2;
+  --accent-magenta: #d946ef;
+  --accent-violet: #8b5cf6;
+  
+  /* The Sun (Menu Trigger) */
+  --sun-core: #ffffff;
+  --sun-glow: #fdb813;
+  
+  /* Text */
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+}
+
+@layer base {
+  * {
+    @apply border-white/10;
+  }
+  body {
+    @apply bg-black text-slate-100 antialiased;
+    overflow-x: hidden;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+  
+  .glass-strong {
+    @apply bg-white/10 backdrop-blur-2xl border border-white/20;
+  }
+  
+  .glow-cyan {
+    text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+  }
+  
+  .glow-magenta {
+    text-shadow: 0 0 20px rgba(255, 0, 170, 0.5);
+  }
+  
+  .glow-purple {
+    text-shadow: 0 0 20px rgba(112, 0, 255, 0.5);
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050510;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #7000ff, #ff00aa);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #9000ff, #ff00cc);
+}
+
+/* Selection color */
+::selection {
+  background-color: rgba(112, 0, 255, 0.3);
+  color: #ffffff;
+}
+
