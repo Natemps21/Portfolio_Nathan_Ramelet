@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "@/styles/globals.css";
 import BackgroundClouds from "@/components/ui/BackgroundClouds";
 import SimpleStars from "@/components/ui/SimpleStars";
@@ -54,6 +55,9 @@ export default function RootLayout({
         <main className="relative z-20 min-h-screen">
           {children}
         </main>
+        
+        {/* Vercel Analytics */}
+        <Analytics />
       </body>
     </html>
   );
