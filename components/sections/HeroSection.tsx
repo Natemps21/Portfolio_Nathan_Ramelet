@@ -107,8 +107,8 @@ export default function HeroSection() {
           className="text-lg md:text-xl text-slate-300 mb-12 max-w-4xl mx-auto leading-relaxed relative pl-8 md:pl-12 italic"
         >
           {/* Guillemets décoratifs */}
-          <span className="absolute left-0 top-0 text-6xl md:text-8xl text-nebula-cyan/30 font-serif leading-none">"</span>
-          <span className="absolute right-0 bottom-0 text-6xl md:text-8xl text-nebula-magenta/30 font-serif leading-none transform rotate-180">"</span>
+          <span className="absolute left-0 top-0 text-6xl md:text-8xl text-nebula-cyan/30 font-serif leading-none">&quot;</span>
+          <span className="absolute right-0 bottom-0 text-6xl md:text-8xl text-nebula-magenta/30 font-serif leading-none transform rotate-180">&quot;</span>
           
           {/* Contenu de la citation */}
           <span className="relative z-10">
