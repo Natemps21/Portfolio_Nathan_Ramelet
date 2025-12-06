@@ -140,7 +140,7 @@ export default function HeroSection() {
           </Button>
           <Button
             variant="ghost"
-            size="lg"
+            size="lg" 
             onClick={() => {
               const contactSection = document.getElementById('contact');
               if (contactSection) {

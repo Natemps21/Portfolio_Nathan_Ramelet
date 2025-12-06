@@ -26,7 +26,7 @@ export default function TimelineSection({ items }: TimelineSectionProps) {
         <p className="text-slate-400 text-lg max-w-2xl mx-auto">
           De l&apos;apprentissage à l&apos;expertise : une constellation d&apos;expériences qui façonnent mon voyage dans le monde l&apos;ingénierie informatique/électronique.
         </p>
-      </motion.div>
+      </motion.div>   
 
       {/* Timeline Container */}
       <div className="relative">
