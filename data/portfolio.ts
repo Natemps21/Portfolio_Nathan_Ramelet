@@ -309,7 +309,7 @@ export const projectsData: Project[] = [
     video: "/videos/Video_simulation_Unity.mp4",
     description: "Simulation d'incendie à l'interieur d'une école en suivant la théorie des agents. Nombre d'étudiant, de serre-file et de leader variables. Interface utilisateur pour lancer et paramétrer la simulation.",
     tech: ["unity", "C#", "Excel", "Asset store", "UI","UX","théorie des agents"],
-    image: "/images/Image_TheorieAgent.png",
+    image: "/images/Project/Image_TheorieAgent.png",
     repoLink: "https://github.com/Natemps21/Simulation-Incendie---theorie-des-agents",
     downloadLink: "/downloads/Rapport_Evacuation_incendie",
     demoVideo: "/videos/Video_simulation_Unity.mp4",
@@ -318,9 +318,10 @@ export const projectsData: Project[] = [
   {
     id: 8,
     title: "Portfolio",
-    description: "Portfolio avec animations Three.js, navigation 3D interactive et design futuriste.",
+    description:
+      "Portfolio personnel conçu avec Next.js et TypeScript : scène 3D interactive (Three.js / React Three Fiber), navigation satellite et interface futuriste type glassmorphism. Projet dockerisé, pipeline GitHub Actions (lint, build) et mise en production sur Vercel.",
     tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Three.js","Vercel"],
-    image: "/images/project-portfolio.jpg",
+    image: "/images/Project/Image_Portfolio.png",
     repoLink: "https://github.com/Natemps21/Portfolio_Nathan_Ramelet",
     featured: false
   }
