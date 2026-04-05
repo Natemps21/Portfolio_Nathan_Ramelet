@@ -113,7 +113,12 @@ export default function HeroSection() {
           {/* Contenu de la citation */}
           <span className="relative z-10">
             <TextWithHover
-              text="Entre jeux vidéo, musculation et ingénierie, il y a un point commun : la quête de progression. Passionné par les nouvelles technologies depuis toujours, j'aborde chaque projet comme un nouveau niveau à explorer : comprendre les mécaniques, optimiser les performances et créer une expérience fluide. Du jeu vidéo au code, c'est la même logique : s'améliorer, performer et créer ce que j'aurais envie d'utiliser."
+              text="Entre jeux vidéo, musculation et ingénierie, il y a finalement la même logique : progresser.
+Passionné par les nouvelles technologies depuis longtemps, j’aime aborder chaque projet comme un nouveau défi : comprendre comment les choses fonctionnent, modéliser des solutions et chercher la meilleure façon de les mettre en œuvre.
+
+Mais un projet ne se résume pas seulement à la technique. Il repose aussi sur l’organisation, la gestion des priorités et la collaboration. Travailler sur un projet, c’est autant structurer les idées que coordonner les efforts pour faire avancer l’ensemble.
+
+Que ce soit dans le code, la conception ou la gestion d’un projet, la motivation reste la même : apprendre, s’améliorer et construire des solutions utiles."
               highlightWords={['progression', 'nouvelles technologies', 'comprendre', 'optimiser', 'créer', 's\'améliorer', 'performer']}
             />
           </span>

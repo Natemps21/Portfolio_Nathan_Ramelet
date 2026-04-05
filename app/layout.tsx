@@ -17,7 +17,7 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
   display: 'swap',
-});
+}); 
 
 export const metadata: Metadata = {
   title: "Nathan Ramelet | Ingénieur généraliste en électronique/informatique",

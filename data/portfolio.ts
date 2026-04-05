@@ -225,9 +225,9 @@ export const timelineData: TimelineItem[] = [
     title: "Contrat de Professionnalisation - Alternant Ingénieur Chefferie de Projet",
     institution: "APRR – Service Méthodes, Maintenance et Projets (SMMP)",
     date: "2025 - 2026 (1 an)",
-    description: "Conversion de fichiers Excel en base de données Dataverse, automatisation et création d'un outil d'aide à la décision via Power Apps. Déploiement vers site pilote.",
+    description: "Conversion de fichiers Excel en base de données Dataverse, automatisation et création d'un outil d'aide à la décision via Power Apps à partir d'un Proof of Concept. Déploiement vers site pilote.",
     location: "Dijon, France",
-    tags: ["Power Apps", "Dataverse", "Formule FX", "HTML", "CSS", "Management Transverse"]
+    tags: ["Power Apps", "Dataverse", "Formule FX", "HTML", "Développement","Gestion de projet", "Management Transverse","Conduite du changement"]
   }
 ];
 
@@ -295,13 +295,34 @@ export const projectsData: Project[] = [
   },
   {
     id: 6,
-    title: "Club cinéma - Site web",
-    description: "Portfolio immersif avec animations Three.js, navigation 3D interactive et design futuriste.",
-    tech: ["", "", "", "", ""],
+    title: "Club cinéma Application web",
+    description: "Application web pour le club cinéma de l'ESEO Cin'ESEO. Il permet de gérer les votes des étudiants pour les films à projeter, les sorties ciné et les actualités cinématographiques.",
+    tech: ["Modèle C4", "Azure devops", "MongoDB", "React","Vite","API", "C#", "Architecture N-Tier","CSS"],
+    image: "/images/Project/Image_CineESEO.png",
+    repoLink: "https://github.com/Natemps21/Appli-web---Gestion-Cin-ESEO",
+    downloadLink: "/downloads/Diaporama_CinESEO.pdf",
+    featured: false
+  },
+  {
+    id: 7,
+    title: "Simulation incendie - Unity",
+    video: "/videos/Video_simulation_Unity.mp4",
+    description: "Simulation d'incendie à l'interieur d'un bâtiment (une école) en suivant la théorie des agents. Nombre d'étudiant, de serre-file et de leader variables. Interface utilisateur pour lancer et paramétrer la simulation.",
+    tech: ["unity", "C#", "Excel", "Asset store", "UI","UX","théorie des agents"],
+    image: "/images/Image_TheorieAgent.jpg",
+    repoLink: "https://github.com/Natemps21/Simulation-Incendie---theorie-des-agents",
+    downloadLink: "/downloads/Rapport_Evacuation_incendie",
+    demoVideo: "/videos/Video_simulation_Unity.mp4",
+    featured: false
+  },
+  {
+    id: 8,
+    title: "Portfolio",
+    description: "Portfolio avec animations Three.js, navigation 3D interactive et design futuriste.",
+    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Three.js","Vercel"],
     image: "/images/project-portfolio.jpg",
-    repoLink: "https://github.com/nathanramelet/portfolio-3d",
-    liveLink: "https://nathanramelet.dev",
-    featured: true
+    repoLink: "https://github.com/Natemps21/Portfolio_Nathan_Ramelet",
+    featured: false
   }
 ];
 
