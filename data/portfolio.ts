@@ -300,7 +300,7 @@ export const projectsData: Project[] = [
     tech: ["Modèle C4", "Azure devops", "MongoDB", "React","Vite","API", "C#", "Architecture N-Tier","CSS"],
     image: "/images/Project/Image_CinESEO.png",
     repoLink: "https://github.com/Natemps21/Appli-web---Gestion-Cin-ESEO",
-    downloadLink: "/downloads/Diaporama_CinESEO.pdf",
+    downloadLink: "/downloads/Diaporama_CinEseo.pdf",
     featured: false
   },
   {
@@ -311,7 +311,7 @@ export const projectsData: Project[] = [
     tech: ["unity", "C#", "Excel", "Asset store", "UI","UX","théorie des agents"],
     image: "/images/Project/Image_TheorieAgent.png",
     repoLink: "https://github.com/Natemps21/Simulation-Incendie---theorie-des-agents",
-    downloadLink: "/downloads/Rapport_Evacuation_incendie",
+    downloadLink: "/downloads/Rapport_Evacuation_incendie.pdf",
     demoVideo: "/videos/Video_simulation_Unity.mp4",
     featured: false
   },
