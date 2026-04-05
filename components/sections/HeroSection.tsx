@@ -119,7 +119,19 @@ Passionné par les nouvelles technologies depuis longtemps, j’aime aborder cha
 Mais un projet ne se résume pas seulement à la technique. Il repose aussi sur l’organisation, la gestion des priorités et la collaboration. Travailler sur un projet, c’est autant structurer les idées que coordonner les efforts pour faire avancer l’ensemble.
 
 Que ce soit dans le code, la conception ou la gestion d’un projet, la motivation reste la même : apprendre, s’améliorer et construire des solutions utiles."
-              highlightWords={['progression', 'nouvelles technologies', 'comprendre', 'optimiser', 'créer', 's\'améliorer', 'performer']}
+              highlightWords={[
+                'progresser',
+                'logique',
+                'nouvelles',
+                'technologies',
+                'comprendre',
+                'modéliser',
+                'solutions',
+                'collaboration',
+                'organisation',
+                'apprendre',
+                'construire',
+              ]}
             />
           </span>
         </motion.blockquote>
