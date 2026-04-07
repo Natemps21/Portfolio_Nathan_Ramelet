@@ -308,7 +308,7 @@ export const projectsData: Project[] = [
     title: "Simulation incendie - Unity",
     video: "/videos/Video_simulation_Unity.mp4",
     description: "Simulation d'incendie à l'interieur d'une école en suivant la théorie des agents. Nombre d'étudiant, de serre-file et de leader variables. Interface utilisateur pour lancer et paramétrer la simulation.",
-    tech: ["unity", "C#", "Excel", "Asset store", "UI","UX","théorie des agents"],
+    tech: ["Unity", "C#", "Excel", "Asset store", "UI","UX","théorie des agents"],
     image: "/images/Project/Image_TheorieAgent.png",
     repoLink: "https://github.com/Natemps21/Simulation-Incendie---theorie-des-agents",
     downloadLink: "/downloads/Rapport_Evacuation_incendie.pdf",
@@ -318,14 +318,14 @@ export const projectsData: Project[] = [
   {
     id: 8,
     title: "ESEO/ESTP en réalité augmentée",
-    video: "/videos/Video_RARV.mp4",
+    video: "/videos/Video_Demo_RARV.mp4",
     description:
       "Application APK pour téléphone portable en réalité augmentée réalisé avec Unity et Blender. Elle permet de visualiser le bâtiment de l'ESEO/ESTP en réalité augmentée. Placement des étages, rotation/pivotement, zoom, etc.",
-    tech: ["C#", "Unity", "Blender", "RA", "UI/UX"],
+    tech: ["Unity#", "C#", "Blender", "RA", "UI/UX"],
     image: "/images/Project/Image_RARV.png",
     downloadLink: "/downloads/Guide_User_et_Technique_RA.zip", 
     repoLink: "https://github.com/Natemps21/RARV_Batiment_En_Realit-_Augment-",
-    demoVideo: "/videos/Video_Demo_RARV.mp4",
+    demoVideo: "/videos/Video_RARV.mp4" ,
     featured: false
   },
   {
