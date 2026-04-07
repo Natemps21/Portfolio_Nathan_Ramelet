@@ -30,7 +30,7 @@ export default function CVPreview() {
   const categories = [
     {
       id: 'human',
-      title: 'L\'Humain & Leadership',
+      title: 'Leadership et gestion de projet',
       icon: <Users size={24} />,
       color: 'cyan',
       skills: ['Gestion d\'équipe', 'Conduite du changement', 'Gestion du stress', 'Marketing & Communication', 'Club Ciné - Responsable Com']

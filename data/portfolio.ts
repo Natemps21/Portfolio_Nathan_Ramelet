@@ -279,7 +279,7 @@ export const projectsData: Project[] = [
     image: "/images/Project/Image_ArmESEO.png",
     repoLink: "https://github.com/Natemps21/Arm-ESEO---Bras-robotis-3-axes",
     downloadLink: "/downloads/Rapport_et_Diaporama_ArmESEO.zip", 
-    demoVideo: "/videos/Video_ArmESEO.mp4",
+    demoVideo: "/videos/Video_ArmESEO.mp4", 
     linkedProjectId: 5
   },
   {
@@ -317,6 +317,19 @@ export const projectsData: Project[] = [
   },
   {
     id: 8,
+    title: "ESEO/ESTP en réalité augmentée",
+    video: "/videos/Video_RARV.mp4",
+    description:
+      "Application APK pour téléphone portable en réalité augmentée réalisé avec Unity et Blender. Elle permet de visualiser le bâtiment de l'ESEO/ESTP en réalité augmentée. Placement des étages, rotation/pivotement, zoom, etc.",
+    tech: ["C#", "Unity", "Blender", "RA", "UI/UX"],
+    image: "/images/Project/Image_RARV.png",
+    downloadLink: "/downloads/Guide_User_et_Technique_RA.zip", 
+    repoLink: "https://github.com/Natemps21/RARV_Batiment_En_Realit-_Augment-",
+    demoVideo: "/videos/Video_Demo_RARV.mp4",
+    featured: false
+  },
+  {
+    id: 9,
     title: "Portfolio",
     description:
       "Portfolio personnel conçu avec Next.js et TypeScript : scène 3D interactive (Three.js / React Three Fiber), navigation satellite et interface futuriste type glassmorphism. Projet dockerisé, pipeline GitHub Actions (lint, build) et mise en production sur Vercel.",
