@@ -517,6 +517,7 @@ export const evenementsData: Evenement[] = [
 
 export const contactInfo = {
   email: "nathan.ramelet21@gmail.com",
+  phone: "",
   location: "Dijon - France",
   socials: {
     github: "https://github.com/Natemps21",
