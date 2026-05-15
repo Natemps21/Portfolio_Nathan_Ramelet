@@ -337,6 +337,25 @@ export const projectsData: Project[] = [
     image: "/images/Project/Image_Portfolio.png",
     repoLink: "https://github.com/Natemps21/Portfolio_Nathan_Ramelet",
     featured: false
+  },
+  {
+    id: 10,
+    title: "Freelance - La Grande Vesvre",
+    description:
+      "Site vitrine avec module de réservation pour des chambres d'hôtes à Gigny (Yonne). Développé en Next.js et TypeScript, avec Sanity (CMS) pour une gestion éditoriale autonome par le client. Notifications et confirmations de réservation via Resend.",
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "Resend", "Sanity", "Vercel"],
+    image: "/images/Project/Image_LaGrandeVesvre.png",
+    liveLink: "https://lagrandevesvre.com/",
+    featured: false
+  },
+  {
+    id: 11,
+    title: "Site web - Calli'Suivie",
+    description:
+      "EN COURS de création : site web de suivi des performances sportives, principalement en callisthénie, avec ouverture à d’autres disciplines comme la musculation, la course à pied et la randonnée. Objectif : enregistrer, quantifier, analyser et historiser les performances. Fonctionnalités prévues : IA pour les programmes d’entraînement, suivi des calories, chronomètre intelligent, compteur intelligent de répétitions/séries et barres de progression.",
+    tech: [""],
+    image: "",
+    featured: false
   }
 ];
 

@@ -17,7 +17,7 @@ const Section: React.FC<SectionProps> = ({ children, className = '', id }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6 }}
-      className={`relative py-20 px-4 md:px-8 ${className}`}
+      className={`relative py-20 px-4 md:px-8 [content-visibility:auto] [contain-intrinsic-size:auto_500px] ${className}`}
     >
       <div className="max-w-7xl mx-auto">
         {children}

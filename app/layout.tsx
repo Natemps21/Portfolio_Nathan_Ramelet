@@ -1,11 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "@/styles/globals.css";
-import BackgroundClouds from "@/components/ui/BackgroundClouds";
 import SimpleStars from "@/components/ui/SimpleStars";
 import Navigation from "@/components/layout/Navigation";
-import MouseTrail from "@/components/ui/MouseTrail";
+import BackgroundEffects from "@/components/layout/BackgroundEffects";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -18,6 +17,11 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   display: 'swap',
 }); 
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Nathan Ramelet | Ingénieur généraliste en électronique/informatique",
@@ -39,14 +43,11 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body className={inter.className}>
-        {/* Background Clouds - Arrière-plan */}
-        <BackgroundClouds />
-        
         {/* Simple 2D Stars - Canvas performant */}
         <SimpleStars />
         
-        {/* Mouse Trail Effect - Violet/Bleu */}
-        <MouseTrail />
+        {/* Nuages + traînée souris (conditionnels) */}
+        <BackgroundEffects />
         
         {/* Navigation - Top Bar */}
         <Navigation />

@@ -8,8 +8,9 @@ import Button from '@/components/ui/Button';
 import Section from '@/components/ui/Section';
 import { Project } from '@/data/portfolio';
 import { Github, ExternalLink, Star, Download, Play, FileText, Link2 } from 'lucide-react';
-import { useState, useRef, useEffect, createContext, useContext } from 'react';
+import { useState, useRef, useEffect, createContext, useContext, type MouseEvent } from 'react';
 import VideoModal from '@/components/ui/VideoModal';
+import ImageModal from '@/components/ui/ImageModal';
 
 interface ProjectGridProps {
   projects: Project[];
@@ -59,6 +60,7 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const hoverContext = useContext(HoverContext);
@@ -84,6 +86,20 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       video.currentTime = 0; // Réinitialiser à 0 quand on quitte
     }
   }, [isHovered, project.video]);
+
+  const handleCardClick = () => {
+    if (project.liveLink) {
+      window.open(project.liveLink, '_blank', 'noopener,noreferrer');
+    } else if (project.demoVideo) {
+      setIsVideoModalOpen(true);
+    } else {
+      setIsImageModalOpen(true);
+    }
+  };
+
+  const stopCardNavigation = (e: MouseEvent) => {
+    e.stopPropagation();
+  };
 
   return (
     <motion.div
@@ -117,7 +133,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       <Card 
         variant="glass" 
         hoverable 
-        className={`h-full flex flex-col group relative overflow-hidden transition-all duration-300 ${
+        onClick={handleCardClick}
+        className={`h-full flex flex-col group relative overflow-hidden transition-all duration-300 cursor-pointer ${
           shouldHighlight 
             ? 'bg-white/15 backdrop-blur-xl shadow-2xl shadow-nebula-cyan/40' 
             : ''
@@ -222,13 +239,35 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </div>
 
           {/* Actions */}
-          <div className="flex flex-wrap gap-2">
-            {project.repoLink && (
+          <div className="flex flex-wrap gap-2" onClick={stopCardNavigation}>
+            {project.liveLink && (
+              <Button
+                variant="primary"
+                size="sm"
+                className="flex-1 min-w-[100px]"
+                onClick={() => window.open(project.liveLink, '_blank', 'noopener,noreferrer')}
+              >
+                <ExternalLink size={16} className="mr-2" />
+                Voir le site
+              </Button>
+            )}
+            {project.repoLink && !project.liveLink && (
+              <Button
+                variant="primary"
+                size="sm"
+                className="flex-1 min-w-[100px]"
+                onClick={() => window.open(project.repoLink, '_blank', 'noopener,noreferrer')}
+              >
+                <Github size={16} className="mr-2" />
+                Code
+              </Button>
+            )}
+            {project.repoLink && project.liveLink && (
               <Button
                 variant="outline"
                 size="sm"
                 className="flex-1 min-w-[100px]"
-                onClick={() => window.open(project.repoLink, '_blank')}
+                onClick={() => window.open(project.repoLink, '_blank', 'noopener,noreferrer')}
               >
                 <Github size={16} className="mr-2" />
                 Code
@@ -236,24 +275,13 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             )}
             {project.demoVideo && (
               <Button
-                variant="primary"
+                variant={project.liveLink ? 'outline' : 'primary'}
                 size="sm"
                 className="flex-1 min-w-[100px]"
                 onClick={() => setIsVideoModalOpen(true)}
               >
                 <Play size={16} className="mr-2" />
-                Demo
-              </Button>
-            )}
-            {project.liveLink && !project.demoVideo && (
-              <Button
-                variant="primary"
-                size="sm"
-                className="flex-1 min-w-[100px]"
-                onClick={() => window.open(project.liveLink, '_blank')}
-              >
-                <ExternalLink size={16} className="mr-2" />
-                Demo
+                Démo
               </Button>
             )}
             {project.downloadLink && (() => {
@@ -297,6 +325,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           title={`Démonstration - ${project.title}`}
         />
       )}
+
+      {/* Modal image de couverture */}
+      <ImageModal
+        isOpen={isImageModalOpen}
+        onClose={() => setIsImageModalOpen(false)}
+        imageSrc={project.image}
+        title={project.title}
+      />
     </motion.div>
   );
 }

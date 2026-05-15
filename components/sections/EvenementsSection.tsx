@@ -40,7 +40,7 @@ export default function EvenementsSection({ evenements }: EvenementsSectionProps
 
   return (
     <>
-      <Section id="evenements" className="relative overflow-visible">
+      <Section id="evenements" className="relative overflow-hidden">
         {/* Section Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -56,20 +56,20 @@ export default function EvenementsSection({ evenements }: EvenementsSectionProps
         </motion.div>
 
         {/* Single Event Display with Navigation */}
-        <div className="relative max-w-6xl mx-auto overflow-visible">
+        <motion.div className="relative max-w-6xl mx-auto overflow-hidden px-10 sm:px-12">
           {/* Navigation Buttons */}
           {evenements.length > 1 && (
             <>
               <button
                 onClick={goToPrevious}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 z-30 bg-black/60 hover:bg-black/80 backdrop-blur-sm rounded-full p-3 transition-all duration-200 border border-white/20"
+                className="absolute left-2 top-1/2 -translate-y-1/2 z-30 bg-black/60 hover:bg-black/80 backdrop-blur-sm rounded-full p-2 sm:p-3 transition-all duration-200 border border-white/20"
                 aria-label="Événement précédent"
               >
                 <ChevronLeft size={24} className="text-white" />
               </button>
               <button
                 onClick={goToNext}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 z-30 bg-black/60 hover:bg-black/80 backdrop-blur-sm rounded-full p-3 transition-all duration-200 border border-white/20"
+                className="absolute right-2 top-1/2 -translate-y-1/2 z-30 bg-black/60 hover:bg-black/80 backdrop-blur-sm rounded-full p-2 sm:p-3 transition-all duration-200 border border-white/20"
                 aria-label="Événement suivant"
               >
                 <ChevronRight size={24} className="text-white" />
@@ -107,7 +107,7 @@ export default function EvenementsSection({ evenements }: EvenementsSectionProps
               ))}
             </div>
           )}
-        </div>
+        </motion.div>
       </Section>
 
       {/* Modal vidéo */}
@@ -171,7 +171,7 @@ function EvenementCard({ evenement, index }: { evenement: Evenement; index: numb
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Card variant="glass" hoverable className="h-full flex flex-col group relative overflow-visible">
+      <Card variant="glass" hoverable className="h-full flex flex-col group relative overflow-hidden">
         {/* Badge */}
         {evenement.badge && (
           <div className="absolute top-4 right-4 z-20">

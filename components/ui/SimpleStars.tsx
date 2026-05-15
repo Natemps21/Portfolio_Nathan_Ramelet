@@ -1,143 +1,143 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+
+function getStarCounts() {
+  const w = typeof window !== 'undefined' ? window.innerWidth : 1024;
+  if (w < 640) return { moving: 50, twinkle: 20 };
+  if (w < 1024) return { moving: 80, twinkle: 35 };
+  return { moving: 100, twinkle: 40 };
+}
 
 export default function SimpleStars() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [zoom, setZoom] = useState(1);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', {
+      alpha: false,
+      desynchronized: true,
+    });
     if (!ctx) return;
 
-    // Set canvas size
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const { moving: starCount, twinkle: twinkleCount } = getStarCounts();
+
+    let logicalW = window.innerWidth;
+    let logicalH = window.innerHeight;
+
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      logicalW = window.innerWidth;
+      logicalH = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(logicalW * dpr);
+      canvas.height = Math.floor(logicalH * dpr);
+      canvas.style.width = `${logicalW}px`;
+      canvas.style.height = `${logicalH}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Scroll listener pour zoom - prolongé
-    let scrollY = 0;
-    const handleScroll = () => {
-      scrollY = window.scrollY;
-      // Zoom progressif basé sur le scroll (max 2.5x, nécessite beaucoup plus de scroll)
-      const newZoom = 1 + Math.min(scrollY / 10000, 1.5); // 10000px de scroll pour zoom max 2.5x
-      setZoom(newZoom);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    // Create moving stars - blanches
     const stars: { x: number; y: number; size: number; speedX: number; speedY: number }[] = [];
-    const starCount = 200;
-
     for (let i = 0; i < starCount; i++) {
       stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 2,
-        speedX: (Math.random() - 0.5) * 0.2,
-        speedY: (Math.random() - 0.5) * 0.2,
+        x: Math.random() * logicalW,
+        y: Math.random() * logicalH,
+        size: Math.random() * 1.5 + 0.5,
+        speedX: (Math.random() - 0.5) * 0.15,
+        speedY: (Math.random() - 0.5) * 0.15,
       });
     }
 
-    // Create twinkling stars - violet/bleu statiques, discrètes
-    const twinkleStars: { 
-      x: number; 
-      y: number; 
-      size: number; 
-      baseColor: 'violet' | 'bleu';
-      colorPhase: number; // Pour changement de couleur lent
-      phase: number; // Pour scintillement
-      speed: number; // Vitesse de scintillement (lent)
-      colorSpeed: number; // Vitesse de changement de couleur (très lent)
+    const twinkleStars: {
+      x: number;
+      y: number;
+      size: number;
+      phase: number;
+      speed: number;
     }[] = [];
-    const twinkleCount = 80;
 
     for (let i = 0; i < twinkleCount; i++) {
       twinkleStars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 0.5 + 0.3, // 0.3-0.8px (plus discrètes)
-        baseColor: Math.random() > 0.5 ? 'violet' : 'bleu',
-        colorPhase: Math.random() * Math.PI * 2, // Phase aléatoire pour couleur
-        phase: Math.random() * Math.PI * 2, // Phase aléatoire pour scintillement
-        speed: Math.random() * 0.005 + 0.003, // 0.003-0.008 (scintillement très lent)
-        colorSpeed: Math.random() * 0.001 + 0.0005, // 0.0005-0.0015 (changement couleur très lent)
+        x: Math.random() * logicalW,
+        y: Math.random() * logicalH,
+        size: Math.random() * 0.5 + 0.3,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.004 + 0.002,
       });
     }
 
-    // Animation
-    let animationId: number;
+    let animationId = 0;
     let time = 0;
-    
-    const animate = () => {
-      time += 0.016; // ~60fps
-      // Augmentation de l'opacité pour estomper plus rapidement les traces
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.25)'; // 0.25 au lieu de 0.1 pour estomper plus vite
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    let isVisible = !document.hidden;
+    let isPaused = false;
+    let scrollTimeout: ReturnType<typeof setTimeout>;
 
-      // Draw moving white stars
+    const drawFrame = (scrolling: boolean) => {
+      ctx.fillStyle = scrolling ? '#000000' : 'rgba(0, 0, 0, 0.2)';
+      ctx.fillRect(0, 0, logicalW, logicalH);
+
       stars.forEach((star) => {
-        // Update position
-        star.x += star.speedX;
-        star.y += star.speedY;
-
-        // Wrap around edges
-        if (star.x < 0) star.x = canvas.width;
-        if (star.x > canvas.width) star.x = 0;
-        if (star.y < 0) star.y = canvas.height;
-        if (star.y > canvas.height) star.y = 0;
-
-        // Draw star
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        if (!scrolling) {
+          star.x += star.speedX;
+          star.y += star.speedY;
+          if (star.x < 0) star.x = logicalW;
+          if (star.x > logicalW) star.x = 0;
+          if (star.y < 0) star.y = logicalH;
+          if (star.y > logicalH) star.y = 0;
+        }
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
         ctx.fillRect(star.x, star.y, star.size, star.size);
       });
 
-      // Draw twinkling colored stars - discrètes avec changement de couleur lent
-      twinkleStars.forEach((star) => {
-        // Calculate opacity with sine wave for smooth slow twinkling
-        const opacity = (Math.sin(time * star.speed + star.phase) + 1) / 2; // 0-1
-        const finalOpacity = opacity * 0.4 + 0.15; // 0.15-0.55 (plus discret)
-
-        // Calculate color transition between violet and blue (slow)
-        const colorMix = (Math.sin(time * star.colorSpeed + star.colorPhase) + 1) / 2; // 0-1
-        // 0 = violet pur, 1 = bleu pur
-        const r = Math.round(139 + (74 - 139) * colorMix);   // 139 → 74
-        const g = Math.round(92 + (144 - 92) * colorMix);   // 92 → 144
-        const b = Math.round(246 + (226 - 246) * colorMix); // 246 → 226
-        const currentColor = `${r}, ${g}, ${b}`;
-
-        // Draw glow - plus petit et discret
-        const gradient = ctx.createRadialGradient(
-          star.x, star.y, 0,
-          star.x, star.y, star.size * 2 // Glow plus petit
-        );
-        gradient.addColorStop(0, `rgba(${currentColor}, ${finalOpacity * 0.5})`);
-        gradient.addColorStop(1, `rgba(${currentColor}, 0)`);
-        
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size * 2, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Draw star core - très discret
-        ctx.fillStyle = `rgba(${currentColor}, ${finalOpacity * 0.8})`;
-        ctx.fillRect(star.x - star.size / 2, star.y - star.size / 2, star.size, star.size);
-      });
-
-      animationId = requestAnimationFrame(animate);
+      if (!scrolling) {
+        twinkleStars.forEach((star) => {
+          const opacity = (Math.sin(time * star.speed + star.phase) + 1) / 2;
+          ctx.fillStyle = `rgba(160, 140, 230, ${opacity * 0.35 + 0.2})`;
+          ctx.fillRect(star.x, star.y, star.size, star.size);
+        });
+      }
     };
 
-    animate();
+    const animate = () => {
+      animationId = requestAnimationFrame(animate);
+      if (!isVisible || isPaused) return;
+      time += 0.016;
+      drawFrame(false);
+    };
+
+    const pauseForScroll = () => {
+      if (!isPaused) {
+        isPaused = true;
+        drawFrame(true);
+      }
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isPaused = false;
+      }, 150);
+    };
+
+    const handleVisibility = () => {
+      isVisible = !document.hidden;
+    };
+
+    document.addEventListener('visibilitychange', handleVisibility);
+    window.addEventListener('scroll', pauseForScroll, { passive: true });
+
+    if (reducedMotion) {
+      drawFrame(true);
+    } else {
+      animationId = requestAnimationFrame(animate);
+    }
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', pauseForScroll);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      clearTimeout(scrollTimeout);
       cancelAnimationFrame(animationId);
     };
   }, []);
@@ -146,13 +146,7 @@ export default function SimpleStars() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 z-0 bg-black"
-      style={{ 
-        pointerEvents: 'none',
-        transform: `scale(${zoom})`,
-        transformOrigin: 'center center',
-        transition: 'transform 0.3s ease-out',
-      }}
+      style={{ pointerEvents: 'none' }}
     />
   );
 }
-

@@ -8,7 +8,9 @@ const Card: React.FC<CardProps> = ({
   children, 
   className, 
   variant = 'glass',
-  hoverable = false 
+  hoverable = false,
+  onClick,
+  ...props
 }) => {
   const baseStyles = 'rounded-2xl p-6 transition-all duration-300';
   
@@ -23,7 +25,11 @@ const Card: React.FC<CardProps> = ({
     : '';
   
   return (
-    <div className={cn(baseStyles, variants[variant], hoverStyles, className)}>
+    <div
+      className={cn(baseStyles, variants[variant], hoverStyles, className)}
+      onClick={onClick}
+      {...props}
+    >
       {children}
     </div>
   );

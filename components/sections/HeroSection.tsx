@@ -72,18 +72,21 @@ export default function HeroSection() {
   };
 
   return (
-    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Content */}
-      <div className="relative z-30 text-center px-4 max-w-5xl mx-auto">
+    <section id="home" className="relative min-h-screen flex flex-col items-center justify-start overflow-hidden pt-24 md:pt-28">
+      {/* Content — sous la barre de navigation (h-16) */}
+      <motion.div className="relative z-30 text-center px-4 w-full max-w-5xl mx-auto overflow-hidden mt-2 md:mt-4">
         {/* Main Title avec effet hover subtil */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
         >
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight group cursor-default">
-            <span className="block text-white transition-all duration-500 group-hover:drop-shadow-[0_0_30px_rgba(139,92,246,0.8)]">
-              Nathan Ramelet
+          <h1 className="text-[clamp(1.75rem,8vw,5rem)] font-bold mb-4 sm:mb-6 leading-tight text-balance break-words group cursor-default">
+            <span className="block sm:inline text-white transition-all duration-500 group-hover:drop-shadow-[0_0_30px_rgba(139,92,246,0.8)]">
+              Nathan
+            </span>{' '}
+            <span className="block sm:inline text-white transition-all duration-500 group-hover:drop-shadow-[0_0_30px_rgba(139,92,246,0.8)]">
+              Ramelet
             </span>
           </h1>
         </motion.div>
@@ -94,8 +97,8 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
         >
-          <h2 className="text-2xl md:text-4xl text-slate-300 mb-4">
-          Ingénieur généraliste
+          <h2 className="text-[clamp(1.125rem,4vw,2.25rem)] text-slate-300 mb-4 text-balance break-words px-1">
+            Ingénieur généraliste
           </h2>
         </motion.div>
 
@@ -104,11 +107,11 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6 }}
-          className="text-lg md:text-xl text-slate-300 mb-12 max-w-4xl mx-auto leading-relaxed relative pl-8 md:pl-12 italic"
+          className="text-lg md:text-xl text-slate-300 mb-12 max-w-4xl mx-auto leading-relaxed relative pl-6 md:pl-12 pr-2 md:pr-4 italic overflow-hidden"
         >
           {/* Guillemets décoratifs */}
-          <span className="absolute left-0 top-0 text-6xl md:text-8xl text-nebula-cyan/30 font-serif leading-none">&quot;</span>
-          <span className="absolute right-0 bottom-0 text-6xl md:text-8xl text-nebula-magenta/30 font-serif leading-none transform rotate-180">&quot;</span>
+          <span className="absolute left-0 top-0 text-4xl md:text-8xl text-nebula-cyan/30 font-serif leading-none pointer-events-none">&quot;</span>
+          <span className="absolute right-0 bottom-0 text-4xl md:text-8xl text-nebula-magenta/30 font-serif leading-none rotate-180 pointer-events-none">&quot;</span>
           
           {/* Contenu de la citation */}
           <span className="relative z-10">
@@ -186,9 +189,9 @@ Que ce soit dans le code, la conception ou la gestion d’un projet, la motivati
             <ChevronDown size={24} />
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
 
-      {/* Decorative elements */}
+      {/* Decorative elements - desktop only */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
           animate={{
@@ -196,7 +199,7 @@ Que ce soit dans le code, la conception ou la gestion d’un projet, la motivati
             opacity: [0.3, 0.5, 0.3],
           }}
           transition={{ duration: 8, repeat: Infinity }}
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-nebula-purple/20 rounded-full blur-3xl"
+          className="hidden lg:block absolute top-1/4 left-1/4 w-64 xl:w-96 h-64 xl:h-96 bg-nebula-purple/20 rounded-full blur-3xl"
         />
         <motion.div
           animate={{
@@ -204,7 +207,7 @@ Que ce soit dans le code, la conception ou la gestion d’un projet, la motivati
             opacity: [0.2, 0.4, 0.2],
           }}
           transition={{ duration: 10, repeat: Infinity, delay: 2 }}
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-nebula-cyan/20 rounded-full blur-3xl"
+          className="hidden lg:block absolute bottom-1/4 right-1/4 w-64 xl:w-96 h-64 xl:h-96 bg-nebula-cyan/20 rounded-full blur-3xl"
         />
       </div>
     </section>

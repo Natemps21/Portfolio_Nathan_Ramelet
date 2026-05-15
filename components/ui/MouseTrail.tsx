@@ -14,8 +14,8 @@ export default function MouseTrail() {
 
   useEffect(() => {
     let lastTime = 0;
-    const throttleDelay = 50; // Limiter à 20 FPS pour performance
-    
+    const throttleDelay = 80;
+
     const handleMouseMove = (e: MouseEvent) => {
       const now = Date.now();
       if (now - lastTime < throttleDelay) return;
@@ -24,54 +24,45 @@ export default function MouseTrail() {
       setTrail((prev) => {
         const newTrail = [
           ...prev,
-          {
-            x: e.clientX,
-            y: e.clientY,
-            id: Date.now(),
-          },
+          { x: e.clientX, y: e.clientY, id: Date.now() },
         ];
-        // Garder seulement les 8 dernières positions
-        return newTrail.slice(-8);
+        return newTrail.slice(-4);
       });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[15]">
+    <motion.div className="fixed inset-0 pointer-events-none z-[15]">
       {trail.map((pos, index) => {
-        const baseSize = 40 - index * 3; // Taille décroissante
-        const opacity = (index + 1) / trail.length; // Opacité croissante
-        const isBlue = index % 2 === 0; // Alterne bleu/violet
-        
+        const baseSize = 28 - index * 4;
+        const opacity = ((index + 1) / trail.length) * 0.35;
+        const isBlue = index % 2 === 0;
+
         return (
           <motion.div
             key={pos.id}
             initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: opacity * 0.4, scale: 1 }}
+            animate={{ opacity, scale: 1 }}
             exit={{ opacity: 0, scale: 0 }}
-            transition={{ duration: 1.2 }}
-            className="absolute blur-2xl"
+            transition={{ duration: 0.8 }}
+            className="absolute"
             style={{
               left: pos.x,
               top: pos.y,
               width: baseSize,
-              height: baseSize * 0.6, // Forme ovale pour effet nuage
-              borderRadius: '60% 40% 40% 60% / 60% 50% 50% 40%', // Forme nuage
-              background: isBlue 
-                ? 'radial-gradient(ellipse, rgba(74, 144, 226, 0.3) 0%, rgba(74, 144, 226, 0.1) 50%, transparent 100%)'
-                : 'radial-gradient(ellipse, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 50%, transparent 100%)',
+              height: baseSize * 0.6,
+              borderRadius: '50%',
+              background: isBlue
+                ? 'radial-gradient(ellipse, rgba(74, 144, 226, 0.25) 0%, transparent 70%)'
+                : 'radial-gradient(ellipse, rgba(139, 92, 246, 0.25) 0%, transparent 70%)',
               transform: 'translate(-50%, -50%)',
-              boxShadow: isBlue
-                ? '0 0 20px rgba(74, 144, 226, 0.2)'
-                : '0 0 20px rgba(139, 92, 246, 0.2)',
             }}
           />
         );
       })}
-    </div>
+    </motion.div>
   );
 }
-
