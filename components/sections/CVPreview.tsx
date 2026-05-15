@@ -7,6 +7,9 @@ import Section from '@/components/ui/Section';
 import Tag from '@/components/ui/Tag';
 import { Download, FileText, Users, Code2, Globe, Home, Database, Box, Brain, GitBranch } from 'lucide-react';
 
+const CV_FILE_NAME = 'CV Nathan Ramelet mai 2026.pdf';
+const CV_DOWNLOAD_PATH = `/downloads/${CV_FILE_NAME}`;
+
 export default function CVPreview() {
   const colorClasses = {  
     cyan: {  
@@ -137,12 +140,22 @@ export default function CVPreview() {
             </p>
 
             {/* Download Button */}
-            <Button variant="primary" size="lg" className="group">
+            <Button
+              variant="primary"
+              size="lg"
+              className="group"
+              onClick={() => {
+                const link = document.createElement('a');
+                link.href = encodeURI(CV_DOWNLOAD_PATH);
+                link.download = CV_FILE_NAME;
+                link.click();
+              }}
+            >
               <Download size={20} className="mr-2 group-hover:animate-bounce" />
               Télécharger le CV
             </Button>
 
-            <p className="text-slate-500 text-sm mt-4">PDF • Dernière mise à jour : Dec 2025</p>
+            <p className="text-slate-500 text-sm mt-4">PDF • Dernière mise à jour : Mai 2026</p>
           </Card>
         </motion.div>
 
