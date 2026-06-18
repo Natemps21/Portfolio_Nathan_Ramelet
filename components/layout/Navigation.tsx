@@ -3,8 +3,11 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import LanguageToggle from '@/components/ui/LanguageToggle';
+import { useUI } from '@/lib/i18n';
 
 export default function Navigation() {
+  const t = useUI();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -25,14 +28,14 @@ export default function Navigation() {
   }, []);
 
   const menuItems = [
-    { label: 'Accueil', href: '#home' },
-    { label: 'Diplômes', href: '#diplomes' },
-    { label: 'Parcours', href: '#journey' },
-    { label: 'Projets', href: '#projects' },
-    { label: 'Événements', href: '#evenements' },
-    { label: 'Loisirs', href: '#hobbies' },
-    { label: 'CV', href: '#cv' },
-    { label: 'Contact', href: '#contact' },
+    { label: t.nav.home, href: '#home' },
+    { label: t.nav.diplomes, href: '#diplomes' },
+    { label: t.nav.journey, href: '#journey' },
+    { label: t.nav.projects, href: '#projects' },
+    { label: t.nav.evenements, href: '#evenements' },
+    { label: t.nav.hobbies, href: '#hobbies' },
+    { label: t.nav.cv, href: '#cv' },
+    { label: t.nav.contact, href: '#contact' },
   ];
 
   const handleClick = (href: string) => {
@@ -53,7 +56,7 @@ export default function Navigation() {
       }`}
     >
       <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-start items-center h-16">
+        <div className="flex justify-between items-center h-16">
           {/* Desktop Menu - Aligné à gauche */}
           <div className="hidden md:flex items-center space-x-8">
             {menuItems.map((item) => (
@@ -67,11 +70,18 @@ export default function Navigation() {
             ))}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden ml-auto">
+          {/* Language toggle — desktop */}
+          <div className="hidden md:flex items-center">
+            <LanguageToggle />
+          </div>
+
+          {/* Mobile: toggle + menu button */}
+          <div className="md:hidden ml-auto flex items-center gap-2">
+            <LanguageToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -103,4 +113,3 @@ export default function Navigation() {
     </motion.nav>
   );
 }
-

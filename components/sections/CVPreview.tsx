@@ -6,17 +6,38 @@ import Button from '@/components/ui/Button';
 import Section from '@/components/ui/Section';
 import Tag from '@/components/ui/Tag';
 import { Download, FileText, Users, Code2, Globe, Home, Database, Box, Brain, GitBranch } from 'lucide-react';
+import { useUI } from '@/lib/i18n';
 
 const CV_FILES = {
   fr: {
     fileName: 'CV Nathan Ramelet mai 2026.pdf',
-    label: 'Télécharger (FR)',
   },
   en: {
     fileName: 'CV Nathan Ramelet May 2026 EN.pdf',
-    label: 'Download (EN)',
   },
 } as const;
+
+const CATEGORY_ICONS: Record<string, React.ReactNode> = {
+  human: <Users size={24} />,
+  engineering: <Code2 size={24} />,
+  web: <Globe size={24} />,
+  iot: <Home size={24} />,
+  data: <Database size={24} />,
+  '3d': <Box size={24} />,
+  ai: <Brain size={24} />,
+  devops: <GitBranch size={24} />,
+};
+
+const CATEGORY_COLORS: Record<string, 'cyan' | 'magenta' | 'purple' | 'gold'> = {
+  human: 'cyan',
+  engineering: 'magenta',
+  web: 'purple',
+  iot: 'gold',
+  data: 'cyan',
+  '3d': 'magenta',
+  ai: 'purple',
+  devops: 'gold',
+};
 
 function downloadCV(lang: keyof typeof CV_FILES) {
   const { fileName } = CV_FILES[lang];
@@ -27,87 +48,36 @@ function downloadCV(lang: keyof typeof CV_FILES) {
 }
 
 export default function CVPreview() {
-  const colorClasses = {  
-    cyan: {  
+  const t = useUI();
+
+  const colorClasses = {
+    cyan: {
       bg: 'bg-nebula-cyan/20',
-      text: 'text-nebula-cyan'
+      text: 'text-nebula-cyan',
     },
     magenta: {
       bg: 'bg-nebula-magenta/20',
-      text: 'text-nebula-magenta'
+      text: 'text-nebula-magenta',
     },
     purple: {
       bg: 'bg-nebula-purple/20',
-      text: 'text-nebula-purple'
+      text: 'text-nebula-purple',
     },
     gold: {
       bg: 'bg-star-gold/20',
-      text: 'text-star-gold'
-    }
+      text: 'text-star-gold',
+    },
   };
 
-  const categories = [
-    {
-      id: 'human',
-      title: 'Leadership et gestion de projet',
-      icon: <Users size={24} />,
-      color: 'cyan',
-      skills: ['Gestion d\'équipe', 'Conduite du changement', 'Gestion du stress', 'Marketing & Communication', 'Club Ciné - Responsable Com']
-    },
-    {
-      id: 'engineering',
-      title: 'Langages de programmation',
-      icon: <Code2 size={24} />,
-      color: 'magenta',
-      skills: ['Python', 'C', 'C++', 'Java', 'C#']
-    },
-    {
-      id: 'web',
-      title: 'Développement Web',
-      icon: <Globe size={24} />,
-      color: 'purple',
-      skills: ['JavaScript', 'TypeScript', 'React', 'Vite', 'Node.js', '.NET', 'Visual studio', 'VS Code', 'Cursor']
-    },
-    {
-      id: 'iot',
-      title: 'Smart Building & IoT',
-      icon: <Home size={24} />,
-      color: 'gold',
-      skills: ['BOS', 'BIM', 'Domotique', 'Arduino', 'MQTT', 'HTTP', 'Node-RED']
-    },
-    {
-      id: 'data',
-      title: 'Data & Systèmes d\'Information',
-      icon: <Database size={24} />,
-      color: 'cyan',
-      skills: ['Système d\'Information', 'MySQL', 'Oracle', 'PostgreSQL', 'MongoDB', 'PostGIS', 'QGIS']
-    },
-    {
-      id: '3d',
-      title: 'Immersion & 3D',
-      icon: <Box size={24} />,
-      color: 'magenta',
-      skills: ['Unity', 'C#', 'Réalité Augmentée', 'Réalité Virtuelle']
-    },
-    {
-      id: 'ai',
-      title: 'Intelligence Artificielle',
-      icon: <Brain size={24} />,
-      color: 'purple',
-      skills: ['Perplexity', 'GPT', 'Gemini', 'Claude', 'Cursor']
-    },
-    {
-      id: 'devops',
-      title: 'DevOps & Pilotage',
-      icon: <GitBranch size={24} />,
-      color: 'gold',
-      skills: ['Git', 'GitHub', 'Azure', 'Azure DevOps', 'Gestion de projet']
-    }
-  ];
+  const categories = t.sections.cv.categories.map((category) => ({
+    ...category,
+    icon: CATEGORY_ICONS[category.id],
+    color: CATEGORY_COLORS[category.id],
+    skills: [...category.skills],
+  }));
 
   return (
     <Section id="cv" className="relative">
-      {/* Section Title */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -115,14 +85,13 @@ export default function CVPreview() {
         transition={{ duration: 0.6 }}
         className="text-center mb-16"
       >
-        <h2 className="text-5xl font-bold gradient-text mb-4">Curriculum Vitae</h2>
+        <h2 className="text-5xl font-bold gradient-text mb-4">{t.sections.cv.title}</h2>
         <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-          Un aperçu complet de mes compétences techniques et de mon expérience professionnelle.
+          {t.sections.cv.subtitle}
         </p>
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        {/* Left Side - CV Document Preview */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -130,7 +99,6 @@ export default function CVPreview() {
           transition={{ duration: 0.6 }}
         >
           <Card variant="gradient" className="h-full flex flex-col items-center justify-center p-12">
-            {/* Document Icon */}
             <div className="relative mb-8">
               <motion.div
                 animate={{
@@ -147,15 +115,13 @@ export default function CVPreview() {
               </motion.div>
             </div>
 
-            {/* Text */}
             <h3 className="text-2xl font-bold text-white mb-2 text-center">
-              CV Complet
+              {t.sections.cv.fullCv}
             </h3>
             <p className="text-slate-300 text-center mb-8 max-w-md">
-              Téléchargez mon CV au format PDF, disponible en français et en anglais.
+              {t.sections.cv.downloadHint}
             </p>
 
-            {/* Download Buttons */}
             <div className="flex flex-col sm:flex-row gap-3">
               <Button
                 variant="primary"
@@ -164,7 +130,7 @@ export default function CVPreview() {
                 onClick={() => downloadCV('fr')}
               >
                 <Download size={20} className="mr-2 group-hover:animate-bounce" />
-                {CV_FILES.fr.label}
+                {t.sections.cv.downloadFr}
               </Button>
               <Button
                 variant="secondary"
@@ -173,15 +139,14 @@ export default function CVPreview() {
                 onClick={() => downloadCV('en')}
               >
                 <Download size={20} className="mr-2 group-hover:animate-bounce" />
-                {CV_FILES.en.label}
+                {t.sections.cv.downloadEn}
               </Button>
             </div>
 
-            <p className="text-slate-500 text-sm mt-4">PDF • Dernière mise à jour : Mai 2026</p>
+            <p className="text-slate-500 text-sm mt-4">{t.sections.cv.lastUpdate}</p>
           </Card>
         </motion.div>
 
-        {/* Right Side - Skills Summary */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -198,25 +163,19 @@ export default function CVPreview() {
               transition={{ duration: 0.6, delay: index * 0.05 }}
             >
               <Card variant="glass" hoverable className="h-full">
-                {/* Category Header */}
                 <div className="flex items-center gap-3 mb-3">
-                  <div className={`p-2 rounded-lg ${colorClasses[category.color as keyof typeof colorClasses].bg}`}>
-                    <div className={colorClasses[category.color as keyof typeof colorClasses].text}>
-                      {category.icon}
-                    </div>
+                  <div className={`p-2 rounded-lg ${colorClasses[category.color].bg}`}>
+                    <div className={colorClasses[category.color].text}>{category.icon}</div>
                   </div>
-                  <h4 className="text-lg font-bold text-white">
-                    {category.title}
-                  </h4>
+                  <h4 className="text-lg font-bold text-white">{category.title}</h4>
                 </div>
 
-                {/* Skills Tags */}
                 <div className="flex flex-wrap gap-2">
                   {category.skills.map((skill, skillIndex) => (
                     <Tag
                       key={skillIndex}
                       text={skill}
-                      variant={category.color as 'cyan' | 'magenta' | 'purple' | 'gold'}
+                      variant={category.color}
                       size="sm"
                     />
                   ))}
@@ -229,12 +188,3 @@ export default function CVPreview() {
     </Section>
   );
 }
-
-
-
-
-
-
-
-
-

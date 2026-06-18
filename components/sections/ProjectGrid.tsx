@@ -6,8 +6,9 @@ import Card from '@/components/ui/Card';
 import Tag from '@/components/ui/Tag';
 import Button from '@/components/ui/Button';
 import Section from '@/components/ui/Section';
-import { Project } from '@/data/portfolio';
+import { Project } from '@/data/types';
 import { Github, ExternalLink, Star, Download, Play, FileText, Link2 } from 'lucide-react';
+import { useUI } from '@/lib/i18n';
 import { useState, useRef, useEffect, createContext, useContext, type MouseEvent } from 'react';
 import VideoModal from '@/components/ui/VideoModal';
 import ImageModal from '@/components/ui/ImageModal';
@@ -27,6 +28,7 @@ const HoverContext = createContext<HoverContextType | null>(null);
 
 export default function ProjectGrid({ projects }: ProjectGridProps) {
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
+  const t = useUI();
 
   return (
     <HoverContext.Provider value={{ hoveredProjectId, setHoveredProjectId, projects }}>
@@ -39,9 +41,9 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl font-bold gradient-text mb-4">Projets</h2>
+          <h2 className="text-5xl font-bold gradient-text mb-4">{t.sections.projects.title}</h2>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Une sélection de projets qui démontrent mes compétences techniques et ma passion pour créer des solutions innovantes.
+            {t.sections.projects.subtitle}
           </p>
         </motion.div>
 
@@ -58,6 +60,7 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
 
 // Composant de carte de projet avec support vidéo
 function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const t = useUI();
   const [isHovered, setIsHovered] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
@@ -159,7 +162,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           <div className="absolute top-4 right-4 z-20">
             <div className="flex items-center gap-1 px-3 py-1 bg-star-gold/20 border border-star-gold/50 rounded-full backdrop-blur-sm">
               <Star size={14} className="text-star-gold fill-star-gold" />
-              <span className="text-star-gold text-xs font-medium">Featured</span>
+              <span className="text-star-gold text-xs font-medium">{t.sections.projects.featured}</span>
             </div>
           </div>
         )}
@@ -169,7 +172,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           <div className="absolute top-4 right-4 z-20">
             <div className="flex items-center gap-1 px-3 py-1 bg-nebula-cyan/20 border border-nebula-cyan/50 rounded-full backdrop-blur-sm">
               <Link2 size={14} className="text-nebula-cyan" />
-              <span className="text-nebula-cyan text-xs font-medium">Project link</span>
+              <span className="text-nebula-cyan text-xs font-medium">{t.sections.projects.projectLink}</span>
             </div>
           </div>
         )}
@@ -248,7 +251,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 onClick={() => window.open(project.liveLink, '_blank', 'noopener,noreferrer')}
               >
                 <ExternalLink size={16} className="mr-2" />
-                Voir le site
+                {t.sections.projects.viewSite}
               </Button>
             )}
             {project.repoLink && !project.liveLink && (
@@ -259,7 +262,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 onClick={() => window.open(project.repoLink, '_blank', 'noopener,noreferrer')}
               >
                 <Github size={16} className="mr-2" />
-                Code
+                {t.sections.projects.code}
               </Button>
             )}
             {project.repoLink && project.liveLink && (
@@ -270,7 +273,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 onClick={() => window.open(project.repoLink, '_blank', 'noopener,noreferrer')}
               >
                 <Github size={16} className="mr-2" />
-                Code
+                {t.sections.projects.code}
               </Button>
             )}
             {project.demoVideo && (
@@ -281,7 +284,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 onClick={() => setIsVideoModalOpen(true)}
               >
                 <Play size={16} className="mr-2" />
-                Démo
+                {t.sections.projects.demo}
               </Button>
             )}
             {project.downloadLink && (() => {
@@ -322,7 +325,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           isOpen={isVideoModalOpen}
           onClose={() => setIsVideoModalOpen(false)}
           videoSrc={project.demoVideo}
-          title={`Démonstration - ${project.title}`}
+          title={`${t.sections.projects.demoModalPrefix} - ${project.title}`}
         />
       )}
 

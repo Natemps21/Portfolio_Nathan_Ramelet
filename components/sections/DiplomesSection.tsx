@@ -6,13 +6,16 @@ import Tag from '@/components/ui/Tag';
 import Section from '@/components/ui/Section';
 import Button from '@/components/ui/Button';
 import { GraduationCap, Award, Calendar, Hash, FileText, Download } from 'lucide-react';
-import { Diplome } from '@/data/portfolio';
+import { Diplome } from '@/data/types';
+import { useUI } from '@/lib/i18n';
 
 interface DiplomesSectionProps {
   diplomes: Diplome[];
 }
 
 export default function DiplomesSection({ diplomes }: DiplomesSectionProps) {
+  const t = useUI();
+
   return (
     <Section id="diplomes" className="relative">
       {/* Section Title */}
@@ -23,9 +26,9 @@ export default function DiplomesSection({ diplomes }: DiplomesSectionProps) {
         transition={{ duration: 0.6 }}
         className="text-center mb-16"
       >
-        <h2 className="text-5xl font-bold gradient-text mb-4">Diplômes & Certifications</h2>
+        <h2 className="text-5xl font-bold gradient-text mb-4">{t.sections.diplomes.title}</h2>
         <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-          Mon parcours académique et mes certifications professionnelles.
+          {t.sections.diplomes.subtitle}
         </p>
       </motion.div>
 
@@ -111,7 +114,7 @@ export default function DiplomesSection({ diplomes }: DiplomesSectionProps) {
                     onClick={() => window.open(diplome.lienDiplome, '_blank')}
                   >
                     <Download size={14} className="mr-2" />
-                    Voir le diplôme
+                    {t.sections.diplomes.viewDiploma}
                   </Button>
                 </div>
               )}

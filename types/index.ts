@@ -1,3 +1,11 @@
+// Locale Types
+export type Locale = 'fr' | 'en';
+
+export interface LocaleState {
+  locale: Locale;
+  setLocale: (locale: Locale) => void;
+}
+
 // Galaxy Store Types
 export interface GalaxyState {
   speed: number;

@@ -5,8 +5,9 @@ import Image from 'next/image';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import Section from '@/components/ui/Section';
-import { Evenement } from '@/data/portfolio';
+import { Evenement } from '@/data/types';
 import { Linkedin, Github, ExternalLink, Download, Play, FileText, ChevronLeft, ChevronRight, Image as ImageIcon, Award } from 'lucide-react';
+import { useUI } from '@/lib/i18n';
 import { useState, useRef, useEffect } from 'react';
 import PhotoCarousel from '@/components/ui/PhotoCarousel';
 import VideoModal from '@/components/ui/VideoModal';
@@ -17,6 +18,7 @@ interface EvenementsSectionProps {
 }
 
 export default function EvenementsSection({ evenements }: EvenementsSectionProps) {
+  const t = useUI();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
@@ -49,9 +51,9 @@ export default function EvenementsSection({ evenements }: EvenementsSectionProps
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-5xl font-bold gradient-text mb-4">Événements</h2>
+          <h2 className="text-5xl font-bold gradient-text mb-4">{t.sections.evenements.title}</h2>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Retracez les événements auxquels j&apos;ai participé et les expériences qui ont marqué mon parcours.
+            {t.sections.evenements.subtitle}
           </p>
         </motion.div>
 
@@ -63,14 +65,14 @@ export default function EvenementsSection({ evenements }: EvenementsSectionProps
               <button
                 onClick={goToPrevious}
                 className="absolute left-2 top-1/2 -translate-y-1/2 z-30 bg-black/60 hover:bg-black/80 backdrop-blur-sm rounded-full p-2 sm:p-3 transition-all duration-200 border border-white/20"
-                aria-label="Événement précédent"
+                aria-label={t.sections.evenements.prev}
               >
                 <ChevronLeft size={24} className="text-white" />
               </button>
               <button
                 onClick={goToNext}
                 className="absolute right-2 top-1/2 -translate-y-1/2 z-30 bg-black/60 hover:bg-black/80 backdrop-blur-sm rounded-full p-2 sm:p-3 transition-all duration-200 border border-white/20"
-                aria-label="Événement suivant"
+                aria-label={t.sections.evenements.next}
               >
                 <ChevronRight size={24} className="text-white" />
               </button>
@@ -102,7 +104,7 @@ export default function EvenementsSection({ evenements }: EvenementsSectionProps
                       ? 'w-8 h-2 bg-nebula-cyan'
                       : 'w-2 h-2 bg-white/30 hover:bg-white/50'
                   }`}
-                  aria-label={`Aller à l'événement ${index + 1}`}
+                  aria-label={t.sections.evenements.goTo(index + 1)}
                 />
               ))}
             </div>
@@ -120,7 +122,7 @@ export default function EvenementsSection({ evenements }: EvenementsSectionProps
             setSelectedTitle('');
           }}
           videoSrc={selectedVideo}
-          title={`Démonstration - ${selectedTitle}`}
+          title={`${t.sections.evenements.demoModalPrefix} - ${selectedTitle}`}
         />
       )}
     </>
@@ -129,6 +131,7 @@ export default function EvenementsSection({ evenements }: EvenementsSectionProps
 
 // Composant de carte d'événement
 function EvenementCard({ evenement, index }: { evenement: Evenement; index: number }) {
+  const t = useUI();
   const [isHovered, setIsHovered] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
@@ -292,7 +295,7 @@ function EvenementCard({ evenement, index }: { evenement: Evenement; index: numb
             {/* Liste déroulante Demo */}
             {evenement.videos && evenement.videos.length > 0 ? (
               <DropdownButton
-                label="Demo"
+                label={t.sections.projects.demo}
                 icon={<Play size={16} />}
                 options={evenement.videos}
                 onSelect={(url) => {
@@ -318,7 +321,7 @@ function EvenementCard({ evenement, index }: { evenement: Evenement; index: numb
                 }}
               >
                 <Play size={16} className="mr-2" />
-                Demo
+                {t.sections.projects.demo}
               </Button>
             ) : null}
             
@@ -369,7 +372,7 @@ function EvenementCard({ evenement, index }: { evenement: Evenement; index: numb
             setSelectedTitle('');
           }}
           videoSrc={selectedVideo}
-          title={`Démonstration - ${selectedTitle || evenement.title}`}
+          title={`${t.sections.evenements.demoModalPrefix} - ${selectedTitle || evenement.title}`}
         />
       )}
     </div>

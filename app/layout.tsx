@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import "@/styles/globals.css";
 import SimpleStars from "@/components/ui/SimpleStars";
 import Navigation from "@/components/layout/Navigation";
+import LangAttribute from "@/components/layout/LangAttribute";
 import BackgroundEffects from "@/components/layout/BackgroundEffects";
 
 const inter = Inter({ 
@@ -43,6 +44,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body className={inter.className}>
+        <LangAttribute />
         {/* Simple 2D Stars - Canvas performant */}
         <SimpleStars />
         

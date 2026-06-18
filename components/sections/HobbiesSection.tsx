@@ -4,13 +4,16 @@ import { motion } from 'framer-motion';
 import Card from '@/components/ui/Card';
 import Section from '@/components/ui/Section';
 import Image from 'next/image';
-import { Hobby } from '@/data/portfolio';
+import { Hobby } from '@/data/types';
+import { useUI } from '@/lib/i18n';
 
 interface HobbiesSectionProps {
   hobbies: Hobby[];
 }
 
 export default function HobbiesSection({ hobbies }: HobbiesSectionProps) {
+  const t = useUI();
+
   return (
     <Section id="hobbies" className="relative">
       {/* Section Title */}
@@ -22,10 +25,10 @@ export default function HobbiesSection({ hobbies }: HobbiesSectionProps) {
         className="text-center mb-16"
       >
         <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
-          Mes Loisirs
+          {t.sections.hobbies.title}
         </h2>
         <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-          En dehors du code, voici ce qui me passionne et m&apos;inspire au quotidien.
+          {t.sections.hobbies.subtitle}
         </p>
       </motion.div>
 

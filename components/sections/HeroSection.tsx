@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import { useUI } from '@/lib/i18n';
 
 // Composant pour les mots interactifs avec effet hover discret
 const InteractiveWord = ({ children, index }: { children: React.ReactNode; index: number }) => {
@@ -64,6 +65,8 @@ const TextWithHover = ({ text, highlightWords }: { text: string; highlightWords?
 };
 
 export default function HeroSection() {
+  const t = useUI();
+
   const scrollToNextSection = () => {
     const nextSection = document.getElementById('journey');
     if (nextSection) {
@@ -98,7 +101,7 @@ export default function HeroSection() {
           transition={{ duration: 1, delay: 0.4 }}
         >
           <h2 className="text-[clamp(1.125rem,4vw,2.25rem)] text-slate-300 mb-4 text-balance break-words px-1">
-            Ingénieur généraliste
+            {t.hero.subtitle}
           </h2>
         </motion.div>
 
@@ -116,25 +119,8 @@ export default function HeroSection() {
           {/* Contenu de la citation */}
           <span className="relative z-10">
             <TextWithHover
-              text="Entre jeux vidéo, musculation et ingénierie, il y a finalement la même logique : progresser.
-Passionné par les nouvelles technologies depuis longtemps, j’aime aborder chaque projet comme un nouveau défi : comprendre comment les choses fonctionnent, modéliser des solutions et chercher la meilleure façon de les mettre en œuvre.
-
-Mais un projet ne se résume pas seulement à la technique. Il repose aussi sur l’organisation, la gestion des priorités et la collaboration. Travailler sur un projet, c’est autant structurer les idées que coordonner les efforts pour faire avancer l’ensemble.
-
-Que ce soit dans le code, la conception ou la gestion d’un projet, la motivation reste la même : apprendre, s’améliorer et construire des solutions utiles."
-              highlightWords={[
-                'progresser',
-                'logique',
-                'nouvelles',
-                'technologies',
-                'comprendre',
-                'modéliser',
-                'solutions',
-                'collaboration',
-                'organisation',
-                'apprendre',
-                'construire',
-              ]}
+              text={t.hero.quote}
+              highlightWords={[...t.hero.highlightWords]}
             />
           </span>
         </motion.blockquote>
@@ -156,7 +142,7 @@ Que ce soit dans le code, la conception ou la gestion d’un projet, la motivati
               }
             }}
           >
-            Voir mes projets
+            {t.hero.ctaProjects}
           </Button>
           <Button
             variant="ghost"
@@ -168,7 +154,7 @@ Que ce soit dans le code, la conception ou la gestion d’un projet, la motivati
               }
             }}
           >
-            Me contacter
+            {t.hero.ctaContact}
           </Button>
         </motion.div>
 
@@ -185,7 +171,7 @@ Que ce soit dans le code, la conception ou la gestion d’un projet, la motivati
             transition={{ duration: 2, repeat: Infinity }}
             className="flex flex-col items-center gap-2 text-slate-400 hover:text-nebula-cyan transition-colors"
           >
-            <span className="text-sm">Scroll</span>
+            <span className="text-sm">{t.hero.scroll}</span>
             <ChevronDown size={24} />
           </motion.div>
         </motion.div>

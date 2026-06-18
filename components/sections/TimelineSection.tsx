@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import Card from '@/components/ui/Card';
 import Tag from '@/components/ui/Tag';
 import Section from '@/components/ui/Section';
-import { TimelineItem } from '@/data/portfolio';
+import { TimelineItem } from '@/data/types';
+import { useUI } from '@/lib/i18n';
 import { GraduationCap, Briefcase, MapPin } from 'lucide-react';
 
 interface TimelineSectionProps {
@@ -12,6 +13,8 @@ interface TimelineSectionProps {
 }
 
 export default function TimelineSection({ items }: TimelineSectionProps) {
+  const t = useUI();
+
   return (
     <Section id="journey" className="relative">
       {/* Section Title */}
@@ -22,9 +25,9 @@ export default function TimelineSection({ items }: TimelineSectionProps) {
         transition={{ duration: 0.6 }}
         className="text-center mb-16"
       >
-        <h2 className="text-5xl font-bold gradient-text mb-4">Mon Parcours</h2>
+        <h2 className="text-5xl font-bold gradient-text mb-4">{t.sections.journey.title}</h2>
         <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-          De l&apos;apprentissage à l&apos;expertise : une constellation d&apos;expériences qui façonnent mon voyage dans le monde l&apos;ingénierie informatique/électronique.
+          {t.sections.journey.subtitle}
         </p>
       </motion.div>   
 
